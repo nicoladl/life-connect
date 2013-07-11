@@ -11,18 +11,17 @@
         ul#photos li img{}
     </style>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="config.js"></script>
 
     <script type="text/javascript" charset="utf-8">
 
-        var userId;
-
         var foursquareApi = {
-            clientId: "NU1WWWZQXLLNF2NYKY22OCFXPW3J10LV4NAZM0ILGV1P3QX3",
-            clientSecret: "FAG3V02PELPBTKF1BV32PV4RFYQ3GKKPXZIHFXJDWSPC4BFB",
-            oauth_token:"JX4YEV2QXYSSXOLS2K2TU2BFXLEOBO4WUI4FWFSEFJFC0GTO",
-            // code: "HQEV3FJDFEZXOUHWSATSNUNH1ZF5NNUFAHBCY0Y3ZPJ0RRNM",
-            redirectUrl : "http://lifeconnect.localhost:8888",
+            clientId: configFoursquare.clientId,
+            clientSecret: configFoursquare.clientSecret,
+            oauth_token: configFoursquare.oauth_token,
+            // code: configFoursquare.code,
+            redirectUrl : configFoursquare.redirectUrl,
             authorize: function(){
                 var url = "https://foursquare.com/oauth2/access_token";
                     url += "?client_id="+this.clientId;
@@ -214,11 +213,14 @@
                 this.getJson(url, function(data){
                     $.each(data.response.checkins.items, function(index, v) {
 
+                        console.log(v);
+
                         var nomeVenue = v.venue.name,
                             latitudineVenue = v.venue.location.lat,
-                            longitudineVenue = v.venue.location.lng;
+                            longitudineVenue = v.venue.location.lng,
+                            dateCheckin = v.createdAt;
 
-                        $('#latest').append('<li>'+nomeVenue + ' - coordinate: ' + latitudineVenue + ' / ' + longitudineVenue+'</li>');
+                        $('#latest').append('<li>'+nomeVenue + ' - coordinate: ' + latitudineVenue + ' / ' + longitudineVenue+' - date: '+ dateCheckin + '</li>');
                     });
                 });
             },
