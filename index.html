@@ -12,12 +12,61 @@
 </head>
 <body>
 
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            // init the FB JS SDK
+            FB.init({
+              appId      : '530941246965716',                        // App ID from the app dashboard
+              //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
+              status     : true,                                 // Check Facebook Login status
+              xfbml      : true,                                  // Look for social plugins on the page
+              cookie     : true, // enable cookies to allow the server to access the session
+            });
+        };
+
+        function fb_login(){
+            FB.login(function(response) {
+
+                if (response.authResponse) {
+                    console.log('Welcome!  Fetching your information.... ');
+                    //console.log(response); // dump complete info
+                    access_token = response.authResponse.accessToken; //get access token
+                    user_id = response.authResponse.userID; //get FB UID
+
+                    FB.api('/me', function(response) {
+                        user_email = response.email; //get user email
+                  // you can store this data into your database             
+                    });
+
+                } else {
+                    //user hit cancel button
+                    console.log('User cancelled login or did not fully authorize.');
+
+                }
+            }, {
+                scope: 'publish_stream,email'
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function(d){
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "http://connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document));
+    </script>
+
     <div class="4sq">
         <p>Latest Place of user <strong><span id="user"></span></strong> are:</p>
 
         <ul id="latest"></ul>
         <ul id="lists"></ul>
     </div>
+
+    <a href="#" onclick="fb_login();">FB login</a>
 
     <script type='text/javascript'>
         $(function() {
