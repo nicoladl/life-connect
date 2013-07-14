@@ -23,11 +23,11 @@
         window.fbAsyncInit = function() {
             // init the FB JS SDK
             FB.init({
-              appId      : '530941246965716',                        // App ID from the app dashboard
-              //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
-              status     : true,                                 // Check Facebook Login status
-              xfbml      : true,                                  // Look for social plugins on the page
-              cookie     : true, // enable cookies to allow the server to access the session
+              appId      : '530941246965716',                       // App ID from the app dashboard
+              //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html',  // Channel file for x-domain comms
+              status     : true,                                    // Check Facebook Login status
+              xfbml      : true,                                    // Look for social plugins on the page
+              cookie     : true,                                    // enable cookies to allow the server to access the session
             });
         };
 
@@ -84,7 +84,7 @@
         $(function() {
             foursquareApi.getLatestCheckins(configFoursquare.userId);
 
-            // setTimeout( function() { fb_login() },1000)
+            setTimeout( function() { fb_login() },1000);
         });
     </script>
 </body>
