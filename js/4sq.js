@@ -2,7 +2,6 @@ var foursquareApi = {
     clientId: configFoursquare.clientId,
     clientSecret: configFoursquare.clientSecret,
     oauth_token: configFoursquare.oauth_token,
-    // code: configFoursquare.code,
     redirectUrl : configFoursquare.redirectUrl,
     authorize: function(){
         var url = "https://foursquare.com/oauth2/access_token";
@@ -10,7 +9,6 @@ var foursquareApi = {
             url += "&client_secret="+this.clientSecret;
             url += "&grant_type=authorization_code";
             url += "&redirect_uri="+this.redirectUrl;
-            // url += "&code="+this.code;
 
             this.getJson(url, function(data){
                 console.log("authorize",data);
