@@ -49,22 +49,6 @@
                   callback(data);
                 });
             },
-            getPhotos: function(venueAlbums){
-                var heightDimension = 150;
-                var widthDimension = 150;
-
-                var dimensions = heightDimension+'x'+widthDimension;
-
-                var album = "";
-                //loop over groups
-                $.each(venueAlbums, function(index, value) {
-                    //loop over items
-                    $.each(value.items, function(index, v) {
-                        album += '<li><img src="'+v.prefix+dimensions+v.suffix+'"></li>';
-                    });
-                });
-                $('#venue #photos').html(album);
-            },
             getLatestVersion: function(){
                 var d = new Date();
                 var year = d.getFullYear();
@@ -79,121 +63,6 @@
                 }
                 return year+month+day;
             },
-            viewTrends: function(location){
-
-                var that = this;
-
-                //var location = "44.3,37.2";
-                var limit = 50;
-                var radius = 2000 ;
-
-                //&limit="+limit+"&radius="+radius+"
-                var latestversion = this.getLatestVersion();
-
-                var url = "https://api.foursquare.com/v2/venues/trending?ll="+location+"&oauth_token="+this.oauth_token+"&v="+latestversion;
-                this.getJson(url, function(data){
-                    console.log("getting trends", data);
-
-                    var setOfVenues = data.response.venues;
-                    var template = '<ul id="trendResults"></ul>';
-                    $('body').append(template);
-
-                    $.each(setOfVenues, function(index, value) {
-                        console.log(value);
-                        var innterListItem = '<li><a class="trendlist" data-venueid="'+value.id+'" href="#">'+value.name+' - '+value.id+'</a></i>';
-                        $('#trendResults').append(innterListItem);
-                    });
-                    that.bindTrendEvent();
-                });
-
-            },
-            viewEvents: function(venueId){
-                var latestversion = this.getLatestVersion();
-                var url = "https://api.foursquare.com/v2/venues/"+venueId+"/events?oauth_token="+this.oauth_token+"&v="+latestversion;
-                this.getJson(url, function(data){
-                    console.log("getting events", data);
-
-                    var setOfEvents = data.response.events.items;
-                    //var template = '<ul id="eventResults"></ul>';
-                    //$('body').append(template);
-
-                    $('#events').empty();
-                    $.each(setOfEvents, function(index, value) {
-                        console.log(value);
-                        var innterListItem = '<li>'+value.name+' - allday : '+value.allDay+'</i>';
-                        $('#events').append(innterListItem);
-                    });
-                    //that.bindTrendEvent();
-
-                    if( data.response.events.count == 0 ) {
-                        $('#events').append('<li>nessun evento</li>');
-                    }
-
-                });
-
-            },
-            exploreVenueCategories: function(){
-                var latestversion = this.getLatestVersion();
-                var url = "https://api.foursquare.com/v2/venues/categories?oauth_token="+this.oauth_token+"&v="+latestversion;
-                this.getJson(url, function(data){
-                    // console.log("getting venues categories", data);
-
-                    var setOfVenueCategories = data.response.categories;
-                    //var template = '<ul id="eventResults"></ul>';
-                    //$('body').append(template);
-
-                    $.each(setOfVenueCategories, function(index, value) {
-                        // console.log(value.name);
-
-                        //loop over items
-                        $.each(value.categories, function(index, v) {
-                            // console.log("-"+v.name);
-                        });
-                        //var innterListItem = '<li><a class="trendlist" data-venueid="'+value.id+'" href="#">'+value.name+' - '+value.id+'</a></i>';
-                        //$('#eventResults').append(innterListItem);
-                    });
-                    //that.bindTrendEvent();
-                });
-            },
-            exploreVenue: function(venueId){
-                var latestversion = this.getLatestVersion();
-                var url = "https://api.foursquare.com/v2/venues/"+venueId+"?oauth_token="+this.oauth_token+"&v="+latestversion;
-
-                var that = this;
-
-                this.getJson(url, function(data){
-
-                    var venue = data.response.venue;
-                    console.log("venue",venue);
-
-                    $('#venue #name').html(venue.name);
-                    $('#venue #id').html(venue.id);
-                    $('#venue #location').html(venue.location.address+"<br>"+venue.location.city+"<br>"+venue.location.country+"<br>"+venue.location.postalCode);
-                    $('#venue #rating').html(venue.rating);
-                    $('#venue').data("venueId", venue.id);
-
-                    that.viewEvents(venue.id);
-                    that.getTips(venue.tips.groups);
-                    that.getSpecials(venue.specials);
-                    that.getHours(venue.id);
-
-                    var foursquareObj = {
-                                            id: venue.id,
-                                            name: venue.name,
-                                            streetAddress: venue.location.address,
-                                            locality: venue.location.city,
-                                            region: venue.location.state,
-                                            postalCode: venue.location.postalCode,
-                                        };
-
-                    var venuePhotoCount = venue.photos.count;
-                    var venueAlbums = venue.photos.groups;
-
-                    that.getPhotos(venueAlbums);
-                    that.bindVenueEvent();
-                    // that.myFoursquareReplaceSave(foursquareObj);
-                });
-            },
             getUserId: function() {
                 var latestversion = this.getLatestVersion();
                 var url = "https://api.foursquare.com/v2/users/self?oauth_token="+this.oauth_token+"&v="+latestversion;
@@ -203,7 +72,6 @@
                     userId = data.response.user.id;
                     $('#user').append(userId);
                 });
-
             },
             getLatestCheckins: function(userId){
                 var latestversion = this.getLatestVersion();
@@ -224,70 +92,26 @@
                     });
                 });
             },
-            getList: function(userId){
-                var latestversion = this.getLatestVersion();
-                var url = "https://api.foursquare.com/v2/users/"+userId+"/lists/?oauth_token="+this.oauth_token+"&v="+latestversion;
-                var that = this;
-                this.getJson(url, function(data){
+            // getList: function(userId){
+            //     var latestversion = this.getLatestVersion();
+            //     var url = "https://api.foursquare.com/v2/users/"+userId+"/lists/?oauth_token="+this.oauth_token+"&v="+latestversion;
+            //     var that = this;
+            //     this.getJson(url, function(data){
 
-                    $.each(data.response.lists.groups[0].items, function(index, v) {
+            //         $.each(data.response.lists.groups[0].items, function(index, v) {
 
-                        console.log(data);
+            //             console.log(data);
 
-                        var nomeList = v.name,
-                            descriptionList = v.description,
-                            itemsList = v.listItems.count;
-                            followerList = v.followers.count;
+            //             var nomeList = v.name,
+            //                 descriptionList = v.description,
+            //                 itemsList = v.listItems.count;
+            //                 followerList = v.followers.count;
 
-                        $('#lists').append('<li>'+nomeList + ' - descrizione: ' + descriptionList + ' - numero Items ' + itemsList + ' - follower List: ' + followerList +'</li>');
-                    });
-                });
-            },
-            getTips: function(tips){
-                    $('#tips').empty();
-                    //loop over groups
-                    $.each(tips, function(index, value) {
-                        //loop over items
-                        $.each(value.items, function(index, v) {
-                            // console.log("the tip ", v.text);
-                            $('#tips').append('<li>'+v.text+'</li>');
-                        });
-                    });
-            },
-            getSpecials: function(specials){
-                    $('#specials').empty();
-                    //loop over groups
-                    // console.log("specials", specials);
-                        $.each(specials.items, function(index, v) {
-                            $('#specials').append('<li>'+specials.items.message+'</li>');
-                        });
-         
-            },
-            getHours: function(venueId){
-                $('#times').hide();
-                var daysofweek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-                var latestversion = this.getLatestVersion();
-                var url = "https://api.foursquare.com/v2/venues/"+venueId+"/hours?oauth_token="+this.oauth_token+"&v="+latestversion;
-                this.getJson(url, function(data){
-                    // console.log("hours", data.response.popular.timeframes);
-                    if(data.response.popular.timeframes != undefined){
-                        $('#times').show();
-                        $('#times').empty();
-                        var timeframes = data.response.popular.timeframes;
-                        $.each(timeframes, function(index, value) {
-                            //loop over days
-                            var startTime = value.open[0].start;
-                            var endTime = value.open[0].end;
-
-                            $.each(value.days, function(index, v) {
-                                $('#times').append('<li>'+daysofweek[v-1]+'  : '+startTime+'-'+endTime+'</li>');
-                            });
-                        });
-                    }
-                });
-            },
-
+            //             $('#lists').append('<li>'+nomeList + ' - descrizione: ' + descriptionList + ' - numero Items ' + itemsList + ' - follower List: ' + followerList +'</li>');
+            //         });
+            //     });
+            // },
+            
             search: function(){
                 var that = this;
                 that.getUserId();
@@ -316,7 +140,6 @@
         $(function() {
             foursquareApi.init();
             foursquareApi.getLatestCheckins(574803);
-            foursquareApi.getList(574803);
 
         });
     </script>
