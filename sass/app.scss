@@ -1,0 +1,17 @@
+body {
+	width: 960px;
+
+	nav {
+		width: 100%;
+		min-height: 30px;
+
+		ul {
+			list-style: none;
+			
+			li {
+				float: left;
+				margin-right: 50px;
+			}
+		}
+	}
+}

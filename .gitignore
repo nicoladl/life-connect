@@ -9,3 +9,7 @@ Icon?
 ehthumbs.db
 Thumbs.db
 config.js
+
+# Ignore sass-cache files.
+*.sass-cache*
+*.css*

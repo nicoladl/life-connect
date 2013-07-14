@@ -5,9 +5,15 @@
 
     <title>life connect</title>
 
+    <style type="text/css"></style>
+
+    <link rel="stylesheet" type="text/css" href="./css/app.css" />
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
     <script type="text/javascript" src="./config/config.js"></script>
     <script type="text/javascript" src="./js/4sq.js"></script>
+    <script type="text/javascript" src="./js/fb.js"></script>
 
 </head>
 <body>
@@ -25,30 +31,6 @@
             });
         };
 
-        function fb_login(){
-            FB.login(function(response) {
-
-                if (response.authResponse) {
-                    console.log('Welcome!  Fetching your information.... ');
-                    //console.log(response); // dump complete info
-                    access_token = response.authResponse.accessToken; //get access token
-                    user_id = response.authResponse.userID; //get FB UID
-
-                    FB.api('/me', function(response) {
-                        user_email = response.email; //get user email
-                  // you can store this data into your database             
-                    });
-
-                } else {
-                    //user hit cancel button
-                    console.log('User cancelled login or did not fully authorize.');
-
-                }
-            }, {
-                scope: 'publish_stream,email'
-            });
-        };
-
         // Load the SDK asynchronously
         (function(d){
             var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
@@ -59,18 +41,50 @@
         }(document));
     </script>
 
-    <div class="4sq">
-        <p>Latest Place of user <strong><span id="user"></span></strong> are:</p>
+    <nav>
+        <ul>
+            <li><a section="facebook" href="#">FB</a></li>
+            <li><a section="foursquare" href="#">4SQ</a></li>
+            <li><a section="twitter" href="#">TW</a></li>
+            <li><a section="linkedin" href="#">LKIN</a></li>
+            <li><a section="instagram" href="#">INS</a></li>
+            <li><a section="spotify" href="#">SP</a></li>
+        </ul>
+    </nav>
 
+    <section class="facebook">
+        <p>ancora niente per facebook</p>
+    </section>
+
+    <section class="foursquare">
+        <p>Latest Place of user <strong><span id="user"></span></strong> are:</p>
         <ul id="latest"></ul>
         <ul id="lists"></ul>
-    </div>
+    </section>
 
-    <a href="#" onclick="fb_login();">FB login</a>
+    <section class="twitter">
+        <p>ancora niente per twitter</p>
+    </section>
+
+    <section class="linkedin">
+        <p>ancora niente per linkedin</p>
+    </section>
+
+    <section class="instagram">
+        <p>ancora niente per instagram</p>
+    </section>
+
+    <section class="spotify">
+        <p>You need to have a Spotify Premium account in order to use libspotify</p>
+    </section>
+
+    <!-- <a href="#" onclick="fb_login();">FB login</a> -->
 
     <script type='text/javascript'>
         $(function() {
             foursquareApi.getLatestCheckins(configFoursquare.userId);
+
+            // setTimeout( function() { fb_login() },1000)
         });
     </script>
 </body>
