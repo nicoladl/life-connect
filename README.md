@@ -15,3 +15,8 @@ IN PROGRESS
 - Twitter last tweets
 - instagram last shots (no video)
 - linkedin experience
+
+REMEMBER TO:
+
+compass clean
+comapss complile
