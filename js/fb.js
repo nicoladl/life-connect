@@ -5,6 +5,8 @@ $(document).on(
         FB.getLoginStatus(function(res){
             if( res.status == "connected" ){
                 FB.api('/me', function(nicola) {
+                    console.log(nicola);
+
                     user_email = nicola.email; //get user email
                     $('#about').append('<li>user_email: '+ user_email +'</li>');
 
@@ -22,8 +24,11 @@ $(document).on(
 
                     for(var i = 0; i < nicola.languages.length; i++) {
                         user_languages = nicola.languages[i].name; //get user languages
-                        $('#about').append('<li>user_languages: '+ user_languages +'</li>');
+                        $('#about').append('<li>user_languages'+ i +': '+ user_languages +'</li>');
                     }
+
+                    user_bio = nicola.bio; //get user bio
+                    $('#about').append('<li>user_bio: '+ user_bio +'</li>');
                 });
             }
         });
