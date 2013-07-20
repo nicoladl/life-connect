@@ -19,4 +19,4 @@ IN PROGRESS
 REMEMBER TO:
 
 compass clean<br />
-comapss complile
+compass complile
