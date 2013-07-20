@@ -1,23 +1,31 @@
-function fb_login(){
-    FB.login(function(response) {
+$(document).on(
+    'facebookLoad',
+    function(){
+        //some code that requires the FB object
+        FB.getLoginStatus(function(res){
+            if( res.status == "connected" ){
+                FB.api('/me', function(nicola) {
+                    user_email = nicola.email; //get user email
+                    $('#about').append('<li>user_email: '+ user_email +'</li>');
 
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            //console.log(response); // dump complete info
-            access_token = response.authResponse.accessToken; //get access token
-            user_id = response.authResponse.userID; //get FB UID
+                    user_first_name = nicola.first_name; //get user first_name
+                    $('#about').append('<li>user_first_name: '+ user_first_name +'</li>');
 
-            FB.api('/me', function(response) {
-                user_email = response.email; //get user email
-            // you can store this data into your database             
-            });
+                    user_last_name = nicola.last_name; //get user last_name
+                    $('#about').append('<li>user_last_name: '+ user_last_name +'</li>');
 
-        } else {
-            //user hit cancel button
-            console.log('User cancelled login or did not fully authorize.');
+                    user_hometown = nicola.hometown.name; //get user hometown
+                    $('#about').append('<li>user_hometown: '+ user_hometown +'</li>');
 
-        }
-    }, {
-        scope: 'publish_stream,email'
-    });
-};
+                    user_location = nicola.location.name; //get user location
+                    $('#about').append('<li>user_location: '+ user_location +'</li>');
+
+                    for(var i = 0; i < nicola.languages.length; i++) {
+                        user_languages = nicola.languages[i].name; //get user languages
+                        $('#about').append('<li>user_languages: '+ user_languages +'</li>');
+                    }
+                });
+            }
+        });
+    }
+);

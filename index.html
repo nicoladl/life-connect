@@ -5,40 +5,29 @@
 
     <title>life connect</title>
 
-    <style type="text/css"></style>
-
     <link rel="stylesheet" type="text/css" href="./css/app.css" />
-
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/main.js"></script>
-    <script type="text/javascript" src="./config/config.js"></script>
-    <script type="text/javascript" src="./js/4sq.js"></script>
-    <script type="text/javascript" src="./js/fb.js"></script>
 
 </head>
 <body>
 
+    <!-- Load the Facebook JavaScript SDK -->
     <div id="fb-root"></div>
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+
     <script>
         window.fbAsyncInit = function() {
-            // init the FB JS SDK
+            // Initialize the Facebook JavaScript SDK
             FB.init({
-              appId      : '530941246965716',                       // App ID from the app dashboard
-              //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html',  // Channel file for x-domain comms
-              status     : true,                                    // Check Facebook Login status
-              xfbml      : true,                                    // Look for social plugins on the page
-              cookie     : true,                                    // enable cookies to allow the server to access the session
+                appId: '530941246965716',
+                xfbml: true,
+                status: true,
+                cookie: true,
             });
+
+            $(document).trigger('facebookLoad'); //  <---- TRIGGERS A CUSTOM EVENT CALLED 'facebookLoad'
         };
 
-        // Load the SDK asynchronously
-        (function(d){
-            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement('script'); js.id = id; js.async = true;
-            js.src = "http://connect.facebook.net/en_US/all.js";
-            ref.parentNode.insertBefore(js, ref);
-        }(document));
     </script>
 
     <nav>
@@ -53,7 +42,7 @@
     </nav>
 
     <section class="facebook">
-        <p>ancora niente per facebook</p>
+        <ul id="about"></ul>
     </section>
 
     <section class="foursquare">
@@ -80,12 +69,9 @@
 
     <!-- <a href="#" onclick="fb_login();">FB login</a> -->
 
-    <script type='text/javascript'>
-        $(function() {
-            foursquareApi.getLatestCheckins(configFoursquare.userId);
-
-            setTimeout( function() { fb_login() },1000);
-        });
-    </script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./config/config.js"></script>
+    <script type="text/javascript" src="./js/4sq.js"></script>
+    <script type="text/javascript" src="./js/fb.js"></script>
 </body>
 </html>

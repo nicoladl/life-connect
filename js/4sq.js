@@ -1,3 +1,7 @@
+$(function() {
+    foursquareApi.getLatestCheckins(configFoursquare.userId);
+})
+
 var foursquareApi = {
     clientId: configFoursquare.clientId,
     clientSecret: configFoursquare.clientSecret,
@@ -62,7 +66,7 @@ var foursquareApi = {
         this.getJson(url, function(data){
             $.each(data.response.checkins.items, function(index, v) {
 
-                console.log(v);
+                // console.log(v);
 
                 var nomeVenue = v.venue.name,
                     latitudineVenue = v.venue.location.lat,
