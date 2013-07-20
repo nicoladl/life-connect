@@ -17,8 +17,3 @@ IN PROGRESS
 
 - instagram last shots (no video)
 - linkedin experience
-
-REMEMBER TO:
-
-compass clean<br />
-compass complile
